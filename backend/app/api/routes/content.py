@@ -65,7 +65,7 @@ async def create_content_item(
 
     link = ContentApprovalLink(
         content_item_id=item.id,
-        expires_at=datetime.utcnow() + timedelta(days=APPROVAL_LINK_TTL_DAYS),
+        expires_at=datetime.now(timezone.utc) + timedelta(days=APPROVAL_LINK_TTL_DAYS),
     )
     session.add(link)
     await session.commit()
