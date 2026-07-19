@@ -109,6 +109,17 @@ git push -u origin main
 
 Full interactive docs at `/docs` once the API is running.
 
+## Frontend pages
+
+- `/login`, `/register` — auth
+- `/dashboard` — this week's summary
+- `/clients` — client list + add-client form (respects the freemium 1-client limit)
+- `/clients/[clientId]` — onboarding info, content calendar, add content (generates
+  a shareable approval link), create invoices
+- `/invoices` — all invoices, mark-paid action
+- `/approve/[token]` — public, no login required; what you send clients so they
+  can approve/reject/request changes and leave comments
+
 ## Known follow-ups (from the security audit, not yet built)
 
 - Rate limiting on auth endpoints
