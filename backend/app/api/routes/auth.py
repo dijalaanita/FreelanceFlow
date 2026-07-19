@@ -83,7 +83,7 @@ async def refresh(payload: RefreshRequest, session: AsyncSession = Depends(get_s
     stored = result.first()
     if not stored or stored.revoked_at is not None:
         raise HTTPException(status_code=401, detail="Refresh token revoked or unknown")
-    if stored.expires_at.replace(tzinfo=timezone.utc) < datetime.now(timezone.utc):
+    if stored.expires_at < datetime.utcnow():
         raise HTTPException(status_code=401, detail="Refresh token expired")
 
     return AccessTokenOut(access_token=create_access_token(claims["sub"]))

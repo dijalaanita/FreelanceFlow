@@ -33,7 +33,7 @@ async def _get_valid_link(token: uuid.UUID, session: AsyncSession) -> ContentApp
     if not link:
         raise HTTPException(status_code=404, detail="Approval link not found")
     # Review — Critical finding: expiry was never enforced. Fixed here.
-    if link.expires_at and link.expires_at.replace(tzinfo=timezone.utc) < datetime.now(timezone.utc):
+    if link.expires_at and link.expires_at < datetime.utcnow():
         raise HTTPException(status_code=410, detail="This approval link has expired")
     return link
 
@@ -43,7 +43,7 @@ async def view_approval_link(token: uuid.UUID, session: AsyncSession = Depends(g
     link = await _get_valid_link(token, session)
 
     if link.viewed_at is None:
-        link.viewed_at = datetime.now(timezone.utc)
+        link.viewed_at = datetime.utcnow()
         session.add(link)
         await session.commit()
 
@@ -89,7 +89,7 @@ async def update_approval_status(
         raise HTTPException(status_code=500, detail=f"Status '{status_name}' not seeded")
 
     item.status_id = status_row.id
-    item.updated_at = datetime.now(timezone.utc)
+    item.updated_at = datetime.utcnow()
     session.add(item)
     await session.commit()
     return {"status": status_name}

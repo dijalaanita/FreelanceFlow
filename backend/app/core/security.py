@@ -40,7 +40,7 @@ def create_refresh_token(user_id: str) -> tuple[str, str, datetime]:
     expires_delta = timedelta(days=settings.refresh_token_expire_days)
     token = _create_token({"sub": user_id}, expires_delta, "refresh")
     token_hash = hashlib.sha256(token.encode()).hexdigest()
-    expires_at = datetime.now(timezone.utc) + expires_delta
+    expires_at = datetime.utcnow() + expires_delta
     return token, token_hash, expires_at
 
 
