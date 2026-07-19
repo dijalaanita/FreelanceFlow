@@ -89,7 +89,7 @@ async def update_approval_status(
         raise HTTPException(status_code=500, detail=f"Status '{status_name}' not seeded")
 
     item.status_id = status_row.id
-    item.updated_at = datetime.now(timezone.utc)
+    item.updated_at = datetime.utcnow()
     session.add(item)
     await session.commit()
     return {"status": status_name}
