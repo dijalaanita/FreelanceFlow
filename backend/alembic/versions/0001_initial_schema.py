@@ -33,8 +33,8 @@ def upgrade() -> None:
         sa.Column("password_hash", sa.Text, nullable=False),
         sa.Column("full_name", sa.String(255), nullable=False),
         sa.Column("subscription_tier_id", sa.Integer, sa.ForeignKey("subscriptiontier.id"), nullable=False),
-        sa.Column("created_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
-        sa.Column("updated_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
+        sa.Column("created_at", sa.DateTime , nullable=False, server_default=sa.func.now()),
+        sa.Column("updated_at", sa.DateTime , nullable=False, server_default=sa.func.now()),
     )
 
     op.create_table(
@@ -42,9 +42,9 @@ def upgrade() -> None:
         sa.Column("id", sa.Uuid, primary_key=True),
         sa.Column("user_id", sa.Uuid, sa.ForeignKey("user.id", ondelete="CASCADE"), nullable=False),
         sa.Column("token_hash", sa.String(255), nullable=False, unique=True),
-        sa.Column("expires_at", sa.DateTime(timezone=True), nullable=False),
-        sa.Column("revoked_at", sa.DateTime(timezone=True), nullable=True),
-        sa.Column("created_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
+        sa.Column("expires_at", sa.DateTime , nullable=False),
+        sa.Column("revoked_at", sa.DateTime , nullable=True),
+        sa.Column("created_at", sa.DateTime , nullable=False, server_default=sa.func.now()),
     )
     op.create_index("idx_refreshtoken_user_id", "refreshtoken", ["user_id"])
 
@@ -55,8 +55,8 @@ def upgrade() -> None:
         sa.Column("business_name", sa.String(255), nullable=False),
         sa.Column("contact_email", sa.String(255), nullable=False),
         sa.Column("contact_phone", sa.String(50), nullable=True),
-        sa.Column("created_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
-        sa.Column("updated_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
+        sa.Column("created_at", sa.DateTime , nullable=False, server_default=sa.func.now()),
+        sa.Column("updated_at", sa.DateTime , nullable=False, server_default=sa.func.now()),
     )
     op.create_index("idx_clients_user_id", "client", ["user_id"])
 
@@ -68,8 +68,8 @@ def upgrade() -> None:
         sa.Column("rate_card_description", sa.Text, nullable=True),
         sa.Column("contract_template_url", sa.Text, nullable=True),
         sa.Column("welcome_packet_url", sa.Text, nullable=True),
-        sa.Column("created_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
-        sa.Column("updated_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
+        sa.Column("created_at", sa.DateTime , nullable=False, server_default=sa.func.now()),
+        sa.Column("updated_at", sa.DateTime , nullable=False, server_default=sa.func.now()),
     )
 
     op.create_table(
@@ -87,8 +87,8 @@ def upgrade() -> None:
         sa.Column("platform", sa.String(50), nullable=False),
         sa.Column("scheduled_date", sa.Date, nullable=True),
         sa.Column("status_id", sa.Integer, sa.ForeignKey("contentstatus.id"), nullable=False),
-        sa.Column("created_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
-        sa.Column("updated_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
+        sa.Column("created_at", sa.DateTime , nullable=False, server_default=sa.func.now()),
+        sa.Column("updated_at", sa.DateTime , nullable=False, server_default=sa.func.now()),
         sa.CheckConstraint(
             "platform IN ('Instagram','Twitter','LinkedIn','TikTok','Facebook','YouTube')",
             name="ck_contentitem_platform",
@@ -102,9 +102,9 @@ def upgrade() -> None:
         sa.Column("id", sa.Uuid, primary_key=True),
         sa.Column("content_item_id", sa.Uuid, sa.ForeignKey("contentitem.id", ondelete="CASCADE"), nullable=False, unique=True),
         sa.Column("token", sa.Uuid, nullable=False, unique=True),
-        sa.Column("created_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
-        sa.Column("expires_at", sa.DateTime(timezone=True), nullable=True),
-        sa.Column("viewed_at", sa.DateTime(timezone=True), nullable=True),
+        sa.Column("created_at", sa.DateTime , nullable=False, server_default=sa.func.now()),
+        sa.Column("expires_at", sa.DateTime , nullable=True),
+        sa.Column("viewed_at", sa.DateTime , nullable=True),
     )
     op.create_index("idx_content_approval_links_token", "contentapprovallink", ["token"], unique=True)
     op.create_index(
@@ -119,7 +119,7 @@ def upgrade() -> None:
         sa.Column("parent_comment_id", sa.Uuid, sa.ForeignKey("approvalcomment.id", ondelete="CASCADE"), nullable=True),
         sa.Column("author_type", sa.String(20), nullable=False),
         sa.Column("comment_text", sa.Text, nullable=False),
-        sa.Column("created_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
+        sa.Column("created_at", sa.DateTime , nullable=False, server_default=sa.func.now()),
         sa.CheckConstraint("author_type IN ('client','freelancer')", name="ck_approvalcomment_author_type"),
     )
     op.create_index("idx_approval_comments_approval_link_id", "approvalcomment", ["approval_link_id"])
@@ -135,8 +135,8 @@ def upgrade() -> None:
         sa.Column("issued_date", sa.Date, nullable=False),
         sa.Column("due_date", sa.Date, nullable=False),
         sa.Column("pdf_url", sa.Text, nullable=True),
-        sa.Column("created_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
-        sa.Column("updated_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
+        sa.Column("created_at", sa.DateTime , nullable=False, server_default=sa.func.now()),
+        sa.Column("updated_at", sa.DateTime , nullable=False, server_default=sa.func.now()),
         sa.CheckConstraint("status IN ('Paid','Unpaid')", name="ck_invoice_status"),
     )
     op.create_index("idx_invoices_client_id", "invoice", ["client_id"])
